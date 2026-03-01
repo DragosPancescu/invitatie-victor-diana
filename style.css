@@ -182,30 +182,22 @@ body::after {
     mix-blend-mode: soft-light;
 }
 
-/* Inner shadow along the right edge — shows depth where flaps meet */
+/* Shadow on the right edge of front flap — overlapping illusion */
 .envelope-front::after {
     content: '';
     position: absolute;
     top: 0;
-    right: 0;
+    right: -12px;
     width: 12px;
     height: 100%;
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.12), transparent);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.15), transparent);
     pointer-events: none;
     z-index: 30;
 }
 
-/* Matching shadow on the back flap's inner right edge */
+/* Back flap edge — no shadow needed */
 .envelope-back::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 60%;
-    width: 12px;
-    height: 100%;
-    border-left: 1px solid rgba(0, 0, 0, 0.15);
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
+    content: none;
     pointer-events: none;
     z-index: 2;
 }
