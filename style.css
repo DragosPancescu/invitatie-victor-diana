@@ -1,0 +1,425 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #5a4a3a url('resources/wood-background.jpg') center / cover no-repeat fixed;
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+    position: relative;
+}
+
+/* ── Lighten the wood texture ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ── Subtle vignette over wood texture ── */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 85% 75% at 50% 45%, transparent 30%, rgba(30, 20, 10, 0.35) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ── Petals ── */
+.petal {
+    position: fixed;
+    top: -40px;
+    width: 12px;
+    height: 16px;
+    background: radial-gradient(ellipse at 30% 30%, #f5e6e0, #e8c4b8);
+    border-radius: 50% 50% 50% 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+    filter: blur(0.3px);
+}
+
+.petal.active {
+    animation: petalFall linear forwards;
+}
+
+@keyframes petalFall {
+    0% {
+        opacity: 0;
+        transform: translateX(0) translateY(0) rotate(0deg) scale(0.8);
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.6; }
+    100% {
+        opacity: 0;
+        transform: translateX(var(--drift)) translateY(105vh) rotate(var(--spin)) scale(0.4);
+    }
+}
+
+/* ── Scene ── */
+.scene {
+    position: relative;
+    width: min(720px, 92vw);
+    height: min(420px, 54vw);
+    cursor: pointer;
+    overflow: visible;
+    transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.12))
+            drop-shadow(0 2px 6px rgba(0, 0, 0, 0.08));
+    animation: envelopeEntry 0.8s ease-out forwards;
+}
+
+@keyframes envelopeEntry {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ── Envelope Back Flap (behind the card) ── */
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(35, 70, 50, 0.3), transparent 50%),
+        radial-gradient(ellipse at 75% 65%, rgba(18, 40, 30, 0.25), transparent 45%),
+        radial-gradient(ellipse at 50% 10%, rgba(30, 60, 45, 0.15), transparent 55%),
+        linear-gradient(170deg, #1e3f2f 0%, #1a3a2a 40%, #162f23 100%);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+/* ── Invitation Card (sandwiched between flaps) ── */
+.invitation {
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+    left: 5%;
+    right: 5%;
+    background:
+        radial-gradient(ellipse at 15% 20%, rgba(200, 185, 165, 0.06), transparent 50%),
+        radial-gradient(ellipse at 80% 75%, rgba(190, 175, 155, 0.05), transparent 45%),
+        linear-gradient(165deg, #f8f3ec 0%, #f5f0e8 30%, #f0eadf 70%, #ede6da 100%);
+    border-radius: 2px;
+    z-index: 10;
+    box-shadow:
+        0 6px 30px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 0 60px rgba(0, 0, 0, 0.03);
+    transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.invitation::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--noise-texture);
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+}
+
+.invitation-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Envelope Front Flap (on top, covers left half of card) ── */
+.envelope-front {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at 30% 25%, rgba(35, 70, 50, 0.3), transparent 50%),
+        radial-gradient(ellipse at 70% 70%, rgba(18, 40, 30, 0.2), transparent 45%),
+        linear-gradient(170deg, #1e3f2f 0%, #1a3a2a 40%, #162f23 100%);
+    border-radius: 4px 0 0 4px;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.envelope-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px 0 0 4px;
+    background: var(--noise-texture);
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: soft-light;
+}
+
+.envelope-back::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: var(--noise-texture);
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: soft-light;
+}
+
+/* Inner shadow along the right edge — shows depth where flaps meet */
+.envelope-front::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 100%;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.12), transparent);
+    pointer-events: none;
+    z-index: 30;
+}
+
+/* Matching shadow on the back flap's inner right edge */
+.envelope-back::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 60%;
+    width: 12px;
+    height: 100%;
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Satin ribbon stripe — centered on the front flap */
+.envelope-stripe {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: clamp(40px, 11vw, 80px);
+    height: 100%;
+    background:
+        /* Strong satin sheen — glossy light band */
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.08) 0%,
+            rgba(255, 255, 255, 0.05) 15%,
+            rgba(255, 255, 255, 0.45) 35%,
+            rgba(255, 255, 255, 0.55) 45%,
+            rgba(255, 255, 255, 0.1) 60%,
+            rgba(255, 255, 255, 0.3) 75%,
+            rgba(0, 0, 0, 0.06) 100%
+        ),
+        /* Fine horizontal satin fibers */
+        repeating-linear-gradient(
+            0deg,
+            rgba(255, 255, 255, 0.1) 0px,
+            transparent 1px,
+            transparent 2px
+        ),
+        /* Base satin color with warm tones */
+        linear-gradient(180deg, #efe8de 0%, #e6ddd2 25%, #efe9e0 50%, #e4dbd0 75%, #ede6dc 100%);
+    box-shadow:
+        inset 2px 0 4px rgba(0, 0, 0, 0.1),
+        inset -2px 0 4px rgba(0, 0, 0, 0.1),
+        inset 0 0 12px rgba(0, 0, 0, 0.06);
+    z-index: 1;
+    border: none;
+    overflow: hidden;
+}
+
+/* Stitched edges on ribbon */
+.envelope-stripe::before,
+.envelope-stripe::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(140, 115, 90, 0.18) 0px,
+        rgba(140, 115, 90, 0.18) 3px,
+        transparent 3px,
+        transparent 6px
+    );
+    z-index: 2;
+}
+
+.envelope-stripe::before {
+    left: 4px;
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.envelope-stripe::after {
+    right: 4px;
+    box-shadow: -1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Seal image — centered on the front flap */
+.seal-img {
+    position: absolute;
+    left: 51%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(100px, 28vw, 200px);
+    height: auto;
+    z-index: 10;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* ── Open State ── */
+.scene.open {
+    transform: translateX(-100%);
+}
+
+.scene.open .invitation {
+    transform: translateX(111.1%);
+}
+
+/* ── Confirm Button ── */
+.confirm-btn {
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(10px, 1.6vw, 13px);
+    font-weight: 500;
+    letter-spacing: clamp(1px, 0.4vw, 3px);
+    text-transform: uppercase;
+    color: #f5f0e8;
+    background: #1a3a2a;
+    border: 1px solid rgba(240, 235, 227, 0.15);
+    padding: clamp(10px, 1.5vw, 14px) clamp(24px, 4vw, 40px);
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+    transition: opacity 0.6s ease,
+                left 1.6s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.3s ease,
+                border-color 0.3s ease;
+}
+
+/* Sweep fill from left on hover */
+.confirm-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #f5f0e8;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+}
+
+.scene.open .confirm-btn {
+    opacity: 1;
+    pointer-events: auto;
+    left: 150%;
+    transform: translateX(-50%);
+    transition: opacity 0.6s ease 1.2s,
+                left 1.6s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.confirm-btn:hover {
+    color: #1a3a2a;
+    border-color: #1a3a2a;
+}
+
+.confirm-btn:hover::before {
+    transform: translateX(0);
+}
+
+.confirm-btn:active {
+    transform: translateX(-50%) scale(0.96);
+}
+
+/* ── Hint ── */
+.hint {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(8px, 1.5vw, 11px);
+    letter-spacing: 2px;
+    color: rgba(240, 230, 215, 0.9);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeHint 2s ease 2s forwards;
+    transition: opacity 0.5s ease;
+    z-index: 30;
+    white-space: nowrap;
+}
+
+@keyframes fadeHint {
+    to { opacity: 1; }
+}
+
+.scene.open .hint {
+    opacity: 0 !important;
+}
+
+/* ── Mute Button ── */
+.mute-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(26, 58, 42, 0.7);
+    color: #f5f0e8;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, background 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+.mute-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mute-btn:hover {
+    background: rgba(26, 58, 42, 0.9);
+}
+
+.mute-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}

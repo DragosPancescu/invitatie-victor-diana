@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diana & Victor - Invitație</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scene" id="scene">
+
+    <!-- Back flap of envelope (behind card) -->
+    <div class="envelope-back"></div>
+
+    <!-- Invitation card (between the two flaps) -->
+    <div class="invitation">
+        <img src="resources/invitation.png" alt="Diana & Victor — Invitație" class="invitation-img">
+    </div>
+
+    <!-- Confirm button (outside invitation so overflow:hidden doesn't clip it) -->
+    <a class="confirm-btn" href="https://forms.gle/Qk4s5Buvuc45qTqW8" target="_blank" rel="noopener">Confirmați prezența</a>
+
+    <!-- Front flap of envelope (covers left half of card) -->
+    <div class="envelope-front">
+        <div class="envelope-stripe"></div>
+        <img class="seal-img" src="resources/flower-wax-seal.png" alt="Wax seal">
+    </div>
+
+    <div class="hint">Apasă pentru a deschide</div>
+</div>
+
+<button class="mute-btn" id="muteBtn" aria-label="Mute music">
+    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
