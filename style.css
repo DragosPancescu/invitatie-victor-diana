@@ -9,6 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-height: 100dvh;
     background: #5a4a3a url('resources/wood-background.jpg') center / cover no-repeat fixed;
     overflow: hidden;
     font-family: 'Cormorant Garamond', serif;
